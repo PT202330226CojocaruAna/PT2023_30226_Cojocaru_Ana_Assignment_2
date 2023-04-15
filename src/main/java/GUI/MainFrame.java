@@ -142,10 +142,17 @@ public class MainFrame extends JFrame {
         return Integer.parseInt(minServiceText.getText());
     }
     public static int getN(){
-        return Integer.parseInt(numClientsText.getText());
+        String a1= numClientsText.getText();
+        try{ int a2=Integer.parseInt(a1);
+        return a2;}
+        catch(NumberFormatException a11) {System.out.println(a1);}
+        return 0;
     }
     public static int getQ(){
         return Integer.parseInt(queuesText.getText());
+    }
+    public static int getSimTime(){
+        return Integer.parseInt(tMaxText.getText());
     }
 
 }

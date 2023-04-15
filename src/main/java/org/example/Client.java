@@ -15,7 +15,6 @@ public class Client {
         id=getRandom();
         service=getRandomService();
 
-
     }
 
     public int getRandom(){  // number of id
@@ -36,9 +35,16 @@ public class Client {
     public int getRandomService(){  // number of id
         int n1 = MainFrame.getMinimService();
         int n2 = MainFrame.getMaximService();
-        Random random= new Random();
-        int rand =random.nextInt((n2 - n1) + 1) + n1;
+        Random random1= new Random();
+        int rand =random1.nextInt((n2 - n1) + 1) + n1;
         return rand;
     }
 
+    public int getId(){
+        return id;
+    }
+
+    public String toString(){
+        return "( id: "+id+" arrival: "+arrival+" service: "+service+")";
+    }
 }
