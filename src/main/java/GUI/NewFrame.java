@@ -4,11 +4,7 @@ import threads.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Random;
 
 public class NewFrame extends JFrame {
 
@@ -60,11 +56,22 @@ public class NewFrame extends JFrame {
         panel.add(area1);
         String s=string+"\n"+"Waiting list: "+Manager.printList()+"\n\n";
 
-     //   s+=Manager.print();
+      //  s+=Manager.print();
 
         area1.setText(s);
         area1.setEditable(false);
     }
+
+//    public static void displayClients(){
+//        JTextArea area1= new JTextArea();
+//        panel.add(area1);
+//        String s="Waiting list: "+Manager.printList()+"\n\n";
+//
+//        //   s+=Manager.print();
+//
+//        area1.setText(s);
+//        area1.setEditable(false);
+//    }
 
     public static void display(String string){
 

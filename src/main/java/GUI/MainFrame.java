@@ -87,8 +87,8 @@ public class MainFrame extends JFrame {
         validate.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
 
-                String text1 = minArrText.getText();
-                String text2 = maxArrText.getText();
+               String text1 = minArrText.getText();
+               String text2 = maxArrText.getText();
                 try{
                 int minA= Integer.parseInt(text1);
                 int maxA= Integer.parseInt(text2);
@@ -130,29 +130,36 @@ public class MainFrame extends JFrame {
     }
 
     public static int getMaximArrival(){
-        return Integer.parseInt(maxArrText.getText());
+        //return Integer.parseInt(maxArrText.getText());
+        return 4;
     }
     public static int getMinimArrival(){
-        return Integer.parseInt(minArrText.getText());
+        //return Integer.parseInt(minArrText.getText());
+        return 1;
     }
     public static int getMaximService(){
-        return Integer.parseInt(maxServiceText.getText());
+        //return Integer.parseInt(maxServiceText.getText());
+        return 3;
     }
     public static int getMinimService(){
-        return Integer.parseInt(minServiceText.getText());
+        //return Integer.parseInt(minServiceText.getText());
+return 1;
     }
     public static int getN(){
         String a1= numClientsText.getText();
         try{ int a2=Integer.parseInt(a1);
         return a2;}
         catch(NumberFormatException a11) {System.out.println(a1);}
-        return 0;
+       // return 0;
+        return 8;
     }
     public static int getQ(){
-        return Integer.parseInt(queuesText.getText());
+     //   return Integer.parseInt(queuesText.getText());
+        return 3;
     }
     public static int getSimTime(){
-        return Integer.parseInt(tMaxText.getText());
+        //return Integer.parseInt(tMaxText.getText());
+        return 15;
     }
 
 }

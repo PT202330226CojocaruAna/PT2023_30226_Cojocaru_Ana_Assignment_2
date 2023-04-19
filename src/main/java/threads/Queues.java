@@ -2,7 +2,6 @@ package threads;
 
 import GUI.NewFrame;
 import org.example.*;
-import threads.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,11 +9,12 @@ import java.util.List;
 
 
 public class Queues extends Thread {
-    private List<Client> clients1 = new ArrayList<>();
-    private List<Client> clients = Collections.synchronizedList(clients1);
+    private static List<Client> clients1 = new ArrayList<>();
+    private static List<Client> clients = Collections.synchronizedList(clients1);
 
     private List<Client> q1 = new ArrayList<>();
     private List<Client> onQueue =  Collections.synchronizedList(q1);
+    int contor;
 
 
     public Queues(){
@@ -24,64 +24,57 @@ public class Queues extends Thread {
     }
 
     //@Override
-    public synchronized void run(int i, int time) {
+    public synchronized void run(int i, int duration, int seconds) {
+        int time = duration - seconds;
 
         synchronized (clients) {
 
-            for (Client c : this.clients) {
-
+            for (Client c : clients) {
                 if (c.getArrival() == time) {
-                        synchronized (onQueue){
-                    onQueue.add(c);
-                    Manager.remove(c);
-                    clients.remove(c);}
-//
-//                if (onQueue.contains(c) && c.getArrival() + c.getService() >= time) {
-//                    onQueue.remove(c);
+                    synchronized (onQueue) {
+                        onQueue.add(c);
+                       // Manager.remove(c);
+                        clients.remove(c);
+                    }
                     break;
                 }
-
-//                if (onQueue.contains(c) && c.getArrival() + c.getService() >= time) {
-//                    onQueue.remove(c);
-//                    Manager.remove(c);
-//                    clients.remove(c);
-//                    break;
-//                }
-            //
             }
 
-        System.out.println(i);
-        System.out.println(clients);
-//        if(onQueue.isEmpty()){
-//            NewFrame.display("Queue "+(i+1)+": closed");}
-//        else  NewFrame.display("Queue "+(i+1)+": ");
+                System.out.println(i);
+                System.out.println("timp "+time);
+                System.out.println("duration "+duration);
+                System.out.println("seconds "+seconds);
+                System.out.println("clientii " + clients);
+                System.out.println("coada " + onQueue);
 
+                synchronized (onQueue) {
 
+                    if (onQueue.isEmpty()) {
+                        contor=-1;
+                        NewFrame.sisplay("Queue " + (i + 1) + ": closed", onQueue);
+                    } else {
 
-
-        synchronized (onQueue) {
-
-            for (Client client :onQueue){
+                     //   List<Client> lista = onQueue;
+                        for(Client c:onQueue){
+                            if ((c.getService() +c.getArrival() == time)){
+                                onQueue.remove(c);
+                            }
+                        break;
+                        }
+                        if(onQueue.isEmpty()) {contor=-1; NewFrame.sisplay("Queue " + (i + 1) + ": closed", onQueue);}
+                        else {
+                            contor=0;
+                            for(Client x: onQueue) contor++;
+                            //  System.out.println(contor);
+                        NewFrame.sisplay("Queue " + (i + 1) + ": ", onQueue);
+                        }
+                    }
+                }
 
             }
-
-            if (onQueue.isEmpty()) {
-                NewFrame.sisplay("Queue " + i + ": closed", onQueue);
-            } else NewFrame.sisplay("Queue " + i + ": ", onQueue);
         }
-
-//        try {
-//            Thread.sleep(1000); // wait for 1 second
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        }
-    }
-
 
         public int getSize(){
-        int contor=0;
-        for(Client x: onQueue) contor++;
          return contor ;
         }
 

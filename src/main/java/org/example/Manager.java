@@ -1,6 +1,7 @@
-package threads;
+package org.example;
 import GUI.*;
 import org.example.*;
+import threads.*;
 
 import javax.swing.*;
 import java.io.FileWriter;
