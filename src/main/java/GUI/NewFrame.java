@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class NewFrame extends JFrame {
@@ -14,6 +15,8 @@ public class NewFrame extends JFrame {
     private static JPanel panel = new JPanel();
     private static JScrollPane scrollPanel = new JScrollPane();
     private static JTextArea area= new JTextArea();
+
+    private Threads t1= new Threads(MainFrame.getSimTime());
 
     public NewFrame(){
 
@@ -36,14 +39,20 @@ public class NewFrame extends JFrame {
         Manager m=new Manager();
 
         startTimeThread();
+      //  Manager.startOthers();
         setVisible(true);
 
     }
 
     public void startTimeThread(){
 
-        Threads t1= new Threads(MainFrame.getSimTime());
         t1.start();
+
+      //  startOthers();
+
+      //  Threads average= new Threads();
+     //   average.start();
+
     }
 
     public static void displayTime(String string){
@@ -51,8 +60,41 @@ public class NewFrame extends JFrame {
         panel.add(area1);
         String s=string+"\n"+"Waiting list: "+Manager.printList()+"\n\n";
 
-        s+=Manager.print();
+     //   s+=Manager.print();
 
+        area1.setText(s);
+        area1.setEditable(false);
+    }
+
+    public static void display(String string){
+
+        JTextArea area1= new JTextArea();
+        panel.add(area1);
+
+        area1.setText(string);
+        area1.setEditable(false);
+    }
+
+    public static void sisplay(String string,List<Client> c){
+
+        JTextArea area1= new JTextArea();
+        panel.add(area1);
+        String s="";
+        s+=string;
+        for (Client i:c) {
+
+            s+=i.toString();
+
+        }
+        area1.setText(s);
+        area1.setEditable(false);
+    }
+
+    public static void displayService(float i){
+        JTextArea area1= new JTextArea();
+        panel.add(area1);
+        String s="AVERAGE SERVICE TIME IS: ";
+        s+=String.valueOf(i);
         area1.setText(s);
         area1.setEditable(false);
     }

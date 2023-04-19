@@ -3,7 +3,7 @@ import GUI.*;
 import threads.*;
 import java.util.Random;
 
-public class Client {
+public class Client{ //} implements Comparable{
 
     private int id;
     private int arrival;
@@ -45,6 +45,27 @@ public class Client {
     }
 
     public String toString(){
-        return "( id: "+id+" arrival: "+arrival+" service: "+service+")";
+       // return "( id: "+id+" arrival: "+arrival+" service: "+service+")";
+        return "("+id+","+arrival+","+service+")  ";
     }
+
+    public int getService() {
+        return service ;
+    }
+
+    public int getArrival(){
+        return arrival;
+    }
+
+    public void decrementServiceTime(){
+        service--;
+    }
+
+    public int compareTo(Client c){
+        return arrival-c.arrival;
+    }
+
+//    public int getWait(){
+//        return arrival;
+
 }

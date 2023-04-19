@@ -3,13 +3,18 @@ import GUI.*;
 import org.example.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 public class Manager {
 
-    private static ArrayList<Client> waiting = new ArrayList<>();
+    private static List<Client> list = new ArrayList<>();
+
+    private static List<Client> waiting = Collections.synchronizedList(list);
+    private static ArrayList<Threads> cozi = new ArrayList<>();//array de threaduri
+    private static float avgService=0;
+    private float avgWait=0;
 
     Set<Integer> usedId=new HashSet<>();
 
@@ -23,28 +28,51 @@ public class Manager {
 //                }
 //            waiting.add(c);
 //            }
-
             Client c = new Client();
             while (usedId.contains(c.getId()))
                 c = new Client();
             usedId.add(c.getId());
+
+            avgService+=c.getService();
+        //    avgWait+=c.getWait();
             waiting.add(c);
         }
-        verif();
-    }
-
-
-    public void verif(){
 
     }
-        public static ArrayList printList(){
+        public static List printList(){
              return waiting;
+        }
+
+        public static synchronized void remove(Client cl){
+
+        synchronized (waiting) {
+            for (Client c : waiting) {
+                if (cl == c) {
+                    waiting.remove(c);
+                    break;
+                }
+            }
+        }
         }
 
         public static String print(){
            String string ="";
-           for(int i=0;i<MainFrame.getQ();i++)
-               string+="Queue "+i+":\n\n";
+           for(int i=0;i<MainFrame.getQ();i++) {
+               string += "Queue " + (i + 1) + ":closed\n\n";
+//               try {
+//                   FileWriter fileW = new FileWriter();
+//                   fileW.write(string);
+//                   fileW.close();
+//               } catch (IOException e) {
+//                   System.out.println("An error occurred.");
+//               }
+           }
         return string;
         }
+
+
+
+    public static float getAverageService(){
+        return avgService/MainFrame.getN();
+    }
 }
