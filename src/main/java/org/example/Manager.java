@@ -76,4 +76,10 @@ public class Manager {
     public static float getAverageService(){
         return avgService/MainFrame.getN();
     }
+
+    public static void removeAll(List<Client> list) {
+        for(Client c: list){
+            remove(c);
+        }
+    }
 }

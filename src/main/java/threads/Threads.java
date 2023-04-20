@@ -18,6 +18,9 @@ public class Threads extends Thread{
     }
     private static List<Queues> fir= new ArrayList<Queues>();
     private static List<Queues> fire = Collections.synchronizedList(fir);
+    //private static List<Queues> ordonat1 = new ArrayList<Queues>();
+    private ArrayList<Queues> ordonat = new ArrayList<>();
+  //  private Queues[] ordonat=null;
     int ok=0;
     int j = 1;
 
@@ -34,60 +37,56 @@ public class Threads extends Thread{
                         Queues t = new Queues();
                         fire.add(t);
                     }
-
                 }
                 NewFrame.displayTime("Time:" + (duration - seconds));
 
-//                for (int i = 0; i < MainFrame.getQ(); i++)
-//                fire.get(i).run(i,duration-seconds+1);
+                List<Queues> copie = new ArrayList<Queues>();
+                copie = fire;
 
+                Collections.sort(copie, Comparator.comparingInt(Queues::getSize));
 
-                int min = MainFrame.getN();
-                Queues qMin = null;
-                j = 0;
-              //  while(j<MainFrame.getQ()) {
-                    for (Queues q : fire) {
-                        if (q.getSize() <= min) {
-                            min = q.getSize();
-                            qMin = q;
-                            qMin.run(j, duration, seconds);
-                        } else  q.run(j, duration, seconds);
-                        j++;
-                    }
+                ArrayList<Queues> ordonat = new ArrayList<>(copie);
+
+           //     synchronized (fire) {
+//                    for (int i = 0; i < MainFrame.getQ(); i++) {
 //
-//                    for(Queues q: fire){
+//                        int min = MainFrame.getN();
+//                        Queues qMin = null;
 //
+//
+//                        Iterator<Queues> iterator = copie.iterator();
+//
+//                   //     while (iterator.hasNext()) {
+//                            for(Queues s: fire) {
+//                                // Queues s = iterator.next();
+//                               // s.run2(j, duration, seconds);
+//                                int ok=0;
+//                                System.out.println(s.getSize());
+//                                for (Queues ord:ordonat){if(ord==s) ok++; }
+//                                    if ((s.getSize() < min) && ok==0) {
+//                                        min = s.getSize();
+//                                        qMin = s;
+//                                    }
+//                            }
+//                        if (qMin != null)
+//                            ordonat.add(qMin);
 //                    }
-
-        //        }
-
-
-//               // int j = 1;
-//                j=1;
-//                //  Queues q =fire.get(j);
-//                for (Queues q : fire) {
-//                 //  Queues q = fire.get(j);
-//                    if (q.getSize() <= min) {
-//                        min = q.getSize();
-//                        qMin = q;
-//                        qMin.run(j, duration - seconds + 1);
-//                    } //else {
-//                        q.run(j, duration - seconds + 1);
-//                    }
-//j++;
+//          //      }
+                System.out.println(ordonat);
 //
-//                    j=1;
-//                   q =fire.get(j);
-//                    if(q==null)
-//                    q.run(j, duration - seconds + 1);
-//                    else qMin.run(j,duration-seconds +1);
-//                    if(j<fire.size()){
-//                    j++;}
-                    // }
+                for (int i = 0; i < ordonat.size(); i++) {
+                    ordonat.get(i).run(i,duration,seconds);
+                }
 
-                    //   String s= Integer.toString(i);
-                    //   NewFrame.display(s);
-                    //  }
+//                for(Queues queue:ordonat){
+//                   int i=0;
+//                    for(Queues fir: fire){
+//                        if(fir==queue)
+//                            queue.run();
+//                        i++;
+//                    }
+//                }
+
 
                     BufferedWriter bw = null;
                     try {
@@ -112,14 +111,10 @@ public class Threads extends Thread{
                         finish();
                     }
 
-                    //   for (int i = 0; i < MainFrame.getQ(); i++) {
-
-                    //      fire.get(i).start();
-                    //   try{this.join();}//  catch(InterruptedException ie){}
-                    //   }
                 }
             }
-        }
+            }
+
     public int getDuration(){
       return duration;
     }
