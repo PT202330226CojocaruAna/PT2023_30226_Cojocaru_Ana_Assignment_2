@@ -32,6 +32,7 @@ public class MainFrame extends JFrame {
 
     private JButton validate = new JButton("Validate");
     private JButton startButton = new JButton("Start");
+    private static JRadioButton queueButton = new JRadioButton("shortest Queue");
 
     public MainFrame() {
 
@@ -81,6 +82,7 @@ public class MainFrame extends JFrame {
         inputPanel.add(startButton);
         startButton.setBackground(Color.PINK);
         inputPanel.add(infoText);
+        inputPanel.add(queueButton);
         infoText.setText("");
         infoText.setEditable(false);
 
@@ -89,10 +91,12 @@ public class MainFrame extends JFrame {
 
                String text1 = minArrText.getText();
                String text2 = maxArrText.getText();
+               String text5 = tMaxText.getText();
                 try{
                 int minA= Integer.parseInt(text1);
                 int maxA= Integer.parseInt(text2);
-                if (minA > maxA) {
+                int tim = Integer.parseInt(text5);
+                if (minA > maxA || maxA>tim || minA<=0 || maxA<=0 ) {
                     infoText.setText("INVALID INPUT");
                     startButton.setEnabled(false);
                     } else {
@@ -104,10 +108,11 @@ public class MainFrame extends JFrame {
 
                 String text3 = minServiceText.getText();
                 String text4 = maxServiceText.getText();
+
                 try{
-                    int minA= Integer.parseInt(text3);
-                    int maxA= Integer.parseInt(text4);
-                    if (minA > maxA) {
+                    int minS= Integer.parseInt(text3);
+                    int maxS= Integer.parseInt(text4);
+                    if (minS > maxS || minS<=0 || maxS<=0 ) {
                         infoText.setText("INVALID INPUT");
                         startButton.setEnabled(false);
                     } else {
@@ -129,37 +134,41 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    public static boolean getShortestQueue(){
+        return queueButton.isSelected();
+    }
+
     public static int getMaximArrival(){
-        //return Integer.parseInt(maxArrText.getText());
-        return 4;
+        return Integer.parseInt(maxArrText.getText());
+       // return 4;
     }
     public static int getMinimArrival(){
-        //return Integer.parseInt(minArrText.getText());
-        return 1;
+        return Integer.parseInt(minArrText.getText());
+        //return 1;
     }
     public static int getMaximService(){
-        //return Integer.parseInt(maxServiceText.getText());
-        return 3;
+        return Integer.parseInt(maxServiceText.getText());
+       // return 4;
     }
     public static int getMinimService(){
-        //return Integer.parseInt(minServiceText.getText());
-return 1;
+        return Integer.parseInt(minServiceText.getText());
+       /// return 1;
     }
     public static int getN(){
         String a1= numClientsText.getText();
         try{ int a2=Integer.parseInt(a1);
         return a2;}
         catch(NumberFormatException a11) {System.out.println(a1);}
-       // return 0;
-        return 15;
+        return 0;
+       // return 15;
     }
     public static int getQ(){
-     //   return Integer.parseInt(queuesText.getText());
-        return 3;
+        return Integer.parseInt(queuesText.getText());
+       // return 3;
     }
     public static int getSimTime(){
-        //return Integer.parseInt(tMaxText.getText());
-        return 15;
+        return Integer.parseInt(tMaxText.getText());
+       // return 15;
     }
 
 }

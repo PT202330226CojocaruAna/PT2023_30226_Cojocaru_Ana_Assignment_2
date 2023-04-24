@@ -43,6 +43,9 @@ public class Manager {
         public static List printList(){
              return waiting;
         }
+        public static List printL1st(){
+             return list;
+        }
 
         public static synchronized void remove(Client cl){
 

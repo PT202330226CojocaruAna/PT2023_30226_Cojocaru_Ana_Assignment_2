@@ -4,6 +4,9 @@ import GUI.MainFrame;
 import GUI.NewFrame;
 import org.example.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Array;
 import java.util.*;
 
@@ -15,8 +18,7 @@ public class Queues extends Thread{ // implements Comparable {
     private List<Client> q1 = new ArrayList<>();
     private List<Client> onQueue =  Collections.synchronizedList(q1);
     private int size = onQueue.size();
-    int contor=0;
-
+    private int contor=0;
 
     public Queues(){
         synchronized (clients) {
@@ -27,33 +29,28 @@ public class Queues extends Thread{ // implements Comparable {
     //@Override
     public synchronized void run(int i, int duration, int seconds) {
         int time = duration - seconds;
-     //   clients=Manager.printList();
 
-      //  synchronized (clients) {
-
-//            Iterator<Client> iterator = clients.iterator();
-//            while (iterator.hasNext()) {
-//                Client c = iterator.next();
-//                if (c.getArrival() == time) {
-//                    synchronized (onQueue) {
-//                        onQueue.add(c);
-//                        Manager.remove(c);
-//                      //  iterator.remove();
-//                    }
-//                }
-//            }
-//
         contor=0;
         for (Client c : clients) {
-            if (c.getArrival() == time) contor++;
+            if (c.getArrival() == time)  contor++;
+        }
+       // contor+=onQueue.size();
+        List<Client> clientsToRemove= new ArrayList<>();
+        for(Client c: onQueue){
+            c.decrementServiceTime();
+            if(c.getService()<=0){
+                clientsToRemove.add(c);
+            }
+        }
+        synchronized (onQueue){
+            onQueue.removeAll(clientsToRemove);
         }
 
         List<Client> clientsToAdd = new ArrayList<>();
                 for (Client c : clients) {
                     if (c.getArrival() == time) {
-                        if(clientsToAdd.size()>(contor/MainFrame.getQ())) {
-                                //       Manager.remove(c);
-                                //       clients.remove(c);
+                      //  clientsToAdd.add(c);
+                        if(clientsToAdd.size()>(contor/(MainFrame.getQ()))) {
                             break;
                         }
                         else   clientsToAdd.add(c);
@@ -62,10 +59,9 @@ public class Queues extends Thread{ // implements Comparable {
 
                 synchronized (onQueue){
                     onQueue.addAll(clientsToAdd);
-                    Manager.removeAll(clientsToAdd);
+                //    Manager.removeAll(clientsToAdd);
                     clients.removeAll(clientsToAdd);
                 }
-
 
                 System.out.println(i);
                 System.out.println("timp "+time);
@@ -73,6 +69,28 @@ public class Queues extends Thread{ // implements Comparable {
                 System.out.println("seconds "+seconds);
                 System.out.println("clientii " + clients);
                 System.out.println("coada " + onQueue);
+            try{
+                FileWriter fileWriter= new FileWriter("fileName.txt", true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write("Time: "+time+"\n");
+                bufferedWriter.write("Waiting clients\n" + clients+"\n");
+                bufferedWriter.write("Queue "+i+": \n"+ onQueue+"\n");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            }catch(IOException e){System.out.println("Error");}
+
+//
+//                List<Client> clientsToRemove= new ArrayList<>();
+//                for(Client c: onQueue){
+//                    c.decrementServiceTime();
+//                    if(c.getService()<=0){
+//                        clientsToRemove.add(c);
+//                    }
+//                }
+//                synchronized (onQueue){
+//                    onQueue.removeAll(clientsToRemove);
+//                }
 
                 synchronized (onQueue) {
 
@@ -80,18 +98,6 @@ public class Queues extends Thread{ // implements Comparable {
                         contor=-1;
                         NewFrame.sisplay("Queue " + (i + 1) + ": closed", onQueue);
                     } else {
-
-                     //   List<Client> lista = onQueue;
-                        for(Client c:onQueue){
-                            c.decrementServiceTime();
-                            if ((c.getService() == 0)){
-                                onQueue.remove(c);
-                                Manager.remove(c);
-                                clients.remove(c);
-                            }
-                        break;
-                        }
-
 
                         if(onQueue.isEmpty()) {contor=-1; NewFrame.sisplay("Queue " + (i + 1) + ": closed", onQueue);}
                         else {
@@ -103,9 +109,8 @@ public class Queues extends Thread{ // implements Comparable {
                     }
                 }
 
-            }
-   //     }
-//decrementeazaaaaaaaaaa timpuuuuuuuu!
+   }
+
 
     public synchronized void run2(int i, int duration, int seconds) {
         int time = duration - seconds;
@@ -149,7 +154,19 @@ public class Queues extends Thread{ // implements Comparable {
         //return size;
         }
 
+        public int getShortestTime(){
+        int suma=0;
+        for(Client index: onQueue)
+            suma+=(index.getService());
+        return suma;
+        }
 
-
+        public float averageWaiting(){
+        float suma=0;
+        for(int i=1;i<onQueue.size();i++){
+            suma+=onQueue.get(i).getService();
+        }
+            return suma;
+        }
 }
 //}

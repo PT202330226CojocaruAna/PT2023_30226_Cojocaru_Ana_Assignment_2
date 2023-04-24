@@ -3,7 +3,7 @@ import GUI.*;
 import threads.*;
 import java.util.Random;
 
-public class Client{ //} implements Comparable{
+public class Client extends NewFrame { //} implements Comparable{
 
     private int id;
     private int arrival;

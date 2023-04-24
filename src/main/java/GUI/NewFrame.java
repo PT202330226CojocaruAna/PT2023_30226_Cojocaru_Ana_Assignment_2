@@ -5,6 +5,7 @@ import threads.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class NewFrame extends JFrame {
 
@@ -51,12 +52,17 @@ public class NewFrame extends JFrame {
 
     }
 
-    public static void displayTime(String string){
+    public static List printWaiting(List lista){
+        return lista;
+    }
+
+    public static void displayTime(String string, List<Client> lista){
         JTextArea area1= new JTextArea();
         panel.add(area1);
-        String s=string+"\n"+"Waiting list: "+Manager.printList()+"\n\n";
+        String s=string+"\n"+"Waiting list: ";//+printWaiting(lista)+"\n\n";
 
-      //  s+=Manager.print();
+        s+=printWaiting(lista);
+        s+="\n\n";
 
         area1.setText(s);
         area1.setEditable(false);
@@ -104,5 +110,24 @@ public class NewFrame extends JFrame {
         s+=String.valueOf(i);
         area1.setText(s);
         area1.setEditable(false);
+    }
+
+    public static void displayPeak(int i){
+        JTextArea area1= new JTextArea();
+        panel.add(area1);
+        String s="PEAK HOUR IS: ";
+        s+=String.valueOf(i);
+        area1.setText(s);
+        area1.setEditable(false);
+    }
+
+    public static void displayWaiting(float i){
+        JTextArea area1= new JTextArea();
+        panel.add(area1);
+        String s="AVERAGE WAITING TIME IS: ";
+        s+=String.valueOf(i);
+        area1.setText(s);
+        area1.setEditable(false);
+
     }
 }
